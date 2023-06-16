@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="Assignment02-Fintech" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="merchants_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="40"/>
+	<column name="merchant_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="business_name" not-null="true">
+		<type name="varchar" length="255"/>
+	</column>
+	<constraint name="merchant_guid_pk" type="pk-constr" table="public.merchants_t">
+		<columns names="merchant_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="applicants_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="260"/>
+	<column name="applicant_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="merchant_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="varchar" length="255"/>
+	</column>
+	<column name="phone_number" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="applicant_guid_pk" type="pk-constr" table="public.applicants_t">
+		<columns names="applicant_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bank_accounts_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="460"/>
+	<column name="bank_account_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="applicant_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="account_number" not-null="true">
+		<type name="varchar" length="50"/>
+	</column>
+	<constraint name="bank_account_guid_pk" type="pk-constr" table="public.bank_accounts_t">
+		<columns names="bank_account_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="offers_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="420"/>
+	<column name="offer_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="bank_account_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="o_state" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<column name="term" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="apr" not-null="true">
+		<type name="decimal" length="9" precision="6"/>
+	</column>
+	<column name="principal_amount" not-null="true">
+		<type name="decimal" length="12" precision="2"/>
+	</column>
+	<constraint name="offer_guid_pk" type="pk-constr" table="public.offers_t">
+		<columns names="offer_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="applications_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="220"/>
+	<column name="application_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="offer_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="a_state" not-null="true">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="application_amount" not-null="true">
+		<type name="decimal" length="12" precision="2"/>
+	</column>
+	<constraint name="application_guid_pk" type="pk-constr" table="public.applications_t">
+		<columns names="application_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="loans_t">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="40"/>
+	<column name="loan_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="application_guid" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="amount" not-null="true">
+		<type name="decimal" length="12" precision="2"/>
+	</column>
+	<column name="loan_deposited_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="loan_guid_pk" type="pk-constr" table="public.loans_t">
+		<columns names="loan_guid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<textbox name="Name" font-size="9">
+	<position x="280" y="160"/>
+	<comment><![CDATA[Name: Alfred Wang
+Student ID: 41097317
+Course: Introduction to Database
+Lab: Assignment 02
+Created: March 08, 2023
+Last Updat: March 27, 2023]]></comment>
+</textbox>
+
+<constraint name="merchant_guid_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.merchants_t" table="public.applicants_t">
+	<columns names="merchant_guid" ref-type="src-columns"/>
+	<columns names="merchant_guid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="applicant_guid_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.applicants_t" table="public.bank_accounts_t">
+	<columns names="applicant_guid" ref-type="src-columns"/>
+	<columns names="applicant_guid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="bank_account_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bank_accounts_t" table="public.offers_t">
+	<columns names="bank_account_guid" ref-type="src-columns"/>
+	<columns names="bank_account_guid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="offer_guid_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.offers_t" table="public.applications_t">
+	<columns names="offer_guid" ref-type="src-columns"/>
+	<columns names="offer_guid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="application_guid" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.applications_t" table="public.loans_t">
+	<columns names="application_guid" ref-type="src-columns"/>
+	<columns names="application_guid" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_applicants_t_merchants_t" type="relfk"
+	 src-table="public.applicants_t"
+	 dst-table="public.merchants_t" reference-fk="merchant_guid_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bank_accounts_t_applicants_t" type="relfk"
+	 src-table="public.bank_accounts_t"
+	 dst-table="public.applicants_t" reference-fk="applicant_guid_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_offers_t_bank_accounts_t" type="relfk"
+	 src-table="public.offers_t"
+	 dst-table="public.bank_accounts_t" reference-fk="bank_account_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_applications_t_offers_t" type="relfk"
+	 src-table="public.applications_t"
+	 dst-table="public.offers_t" reference-fk="offer_guid_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_loans_t_applications_t" type="relfk"
+	 src-table="public.loans_t"
+	 dst-table="public.applications_t" reference-fk="application_guid"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
